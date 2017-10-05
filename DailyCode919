@@ -1,0 +1,27 @@
+//Add Allegro
+#include <allegro5/allegro.h>
+#include <allegro5\allegro_primitives.h>
+#include <iostream>
+using namespace std;
+int input;
+int main() {
+	ALLEGRO_DISPLAY *display = NULL;
+	cout << "Put a number" << endl;
+	cin >> input;
+	input = input * 10;
+	al_init();
+	al_init_primitives_addon();
+	display = al_create_display(900, 900);
+
+	al_clear_to_color(al_map_rgb(55, 12, 85));
+
+	al_draw_filled_rectangle(450, 450, input, input, al_map_rgb(125, 125, 125));
+
+	al_flip_display();
+
+	al_rest(10.0);
+
+	al_destroy_display(display);
+
+	return 0;
+}
