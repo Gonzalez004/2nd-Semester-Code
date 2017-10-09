@@ -1,0 +1,39 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+string input;
+double dist(int a, int b, int c, int d);
+int main() {
+	while (input.compare("quit") != 0) {
+		int x1, y1, x2, y2;
+
+		cout << "Find the distance between two points?" << endl;
+		system("pause");
+		cout << "" << endl;
+
+		cout << "Enter the first x and y coordinates points" << endl;
+		cin >> x1;
+		cin >> y1;
+
+		cout << "Enter the second x and y coordinates points" << endl;
+		cin >> x2;
+		cin >> y2;
+
+		cout << "The distance between them is " << dist(x1, y1, x2, y2) << endl;
+
+
+	}
+
+}
+
+double dist(int a, int b, int c, int d) {
+int distancex = a - c;
+distancex = distancex * distancex;
+
+int distancey = b - d;
+distancey = distancey * distancey;
+
+return sqrt(distancex - distancey);
+
+}
