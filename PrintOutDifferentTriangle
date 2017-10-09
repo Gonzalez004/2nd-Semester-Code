@@ -1,0 +1,80 @@
+#include <iostream>
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_primitives.h>
+#include <ctime>
+#include <string>
+using namespace std;
+
+string input;
+int a;
+int b;
+int c;
+int d;
+int e;
+int f;
+int g;
+int h;
+int i;
+
+
+int main() {
+	while (input.compare("quit") != 0) {
+		srand(time(NULL));
+		int a = rand() % 640;
+		int b = rand() % 640;
+		int c = rand() % 640;
+		int d = rand() % 640;
+		int e = rand() % 640;
+		int f = rand() % 640;
+		int g = rand() % 120;
+		int h = rand() % 120;
+		int i = rand() % 120;
+
+		int j = rand() % 640;
+		int k = rand() % 640;
+		int l = rand() % 640;
+		int m = rand() % 640;
+		int n = rand() % 640;
+		int o = rand() % 640;
+		int p = rand() % 120;
+		int q = rand() % 120;
+		int r = rand() % 120;
+
+		int s = rand() % 640;
+		int t = rand() % 640;
+		int u = rand() % 640;
+		int v = rand() % 640;
+		int w = rand() % 640;
+		int x = rand() % 640;
+		int y = rand() % 120;
+		int z = rand() % 120;
+		int ok = rand() % 120;
+
+
+		cout << "illuminati Confirmed" << endl;
+
+		ALLEGRO_DISPLAY *display = NULL;
+
+		al_init();
+		al_init_primitives_addon();
+
+		display = al_create_display(900, 900);
+
+		al_clear_to_color(al_map_rgb(0, 0, 0));
+
+		al_draw_filled_triangle(a, b, c, d, e, f, al_map_rgb(g, h, i));
+		al_draw_filled_triangle(j, k, l, m, n, o, al_map_rgb(p, q, r));
+		al_draw_filled_triangle(s, t, u, v, w, x, al_map_rgb(y, z, ok));
+
+
+
+
+		al_flip_display();
+
+		al_rest(2.0);
+
+		al_destroy_display(display);
+	}
+		return 0;
+	
+}
