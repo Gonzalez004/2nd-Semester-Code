@@ -1,0 +1,27 @@
+#include <iostream>
+using namespace std;
+
+int score = 0;
+
+int main() {
+
+	cout << " What's your highest score in your flappy bird" << endl;
+
+	cin >> score;
+
+	if (score <= 10)
+		cout << "Newb. Newb!!!!" << endl;
+	
+	else if (score >= 11 && score <= 20)
+		cout << "TRASHHHHHHH" << endl;
+	
+	else if (score >= 21 && score <= 30)
+		cout << "Alright. Good enough" << endl;
+	
+	else if (score > 31) {
+		cout << "A OK" << endl;
+	}
+
+
+
+}
