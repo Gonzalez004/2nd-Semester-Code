@@ -1,0 +1,112 @@
+#include <iostream>
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_primitives.h>
+#include <ctime>
+#include <string>
+using namespace std;
+string input;
+int a;
+int b;
+int c;
+int d;
+int e;
+int f;
+
+int g;
+int h;
+int i;
+int j;
+int k;
+int l;
+
+int m;
+int n;
+int o;
+int p;
+int q;
+int r;
+
+int s;
+int t;
+int u;
+int v;
+int w;
+int x;
+
+int y;
+int z;
+int a1;
+int b1;
+int c1;
+int d1;
+int main() {
+
+	srand(time(NULL));
+	al_init();
+	al_init_primitives_addon();
+
+	ALLEGRO_DISPLAY *display = NULL;
+
+	display = al_create_display(900, 900);
+
+	al_clear_to_color(al_map_rgb(0, 0, 0));
+
+	while (!doexit) {
+		ALLEGRO_EVENT ev;
+		al_wait_for_event(event_queue, &ev);
+		int a = rand() % 900;
+		int b = rand() % 900;
+		int c = rand() % 450;
+		int d = rand() % 256;
+		int e = rand() % 256;
+		int f = rand() % 256;
+
+		int g = rand() % 900;
+		int h = rand() % 900;
+		int i = rand() % 450;
+		int j = rand() % 256;
+		int k = rand() % 256;
+		int l = rand() % 256;
+
+		int m = rand() % 900;
+		int n = rand() % 900;
+		int o = rand() % 450;
+		int p = rand() % 256;
+		int q = rand() % 256;
+		int r = rand() % 256;
+
+		int s = rand() % 900;
+		int t = rand() % 900;
+		int u = rand() % 450;
+		int v = rand() % 256;
+		int w = rand() % 256;
+		int x = rand() % 256;
+
+		int y = rand() % 900;
+		int z = rand() % 900;
+		int a1 = rand() % 450;
+		int b1 = rand() % 256;
+		int c1 = rand() % 256;
+		int d1 = rand() % 256;
+
+		
+
+		al_draw_filled_circle(a, b, c, al_map_rgb(d, e, f));
+		al_draw_filled_circle(g, h, i, al_map_rgb(j, k, l));
+		al_draw_filled_circle(m, n, o, al_map_rgb(p, q, r));
+		al_draw_filled_circle(s, t, u, al_map_rgb(v, w, x));
+		al_draw_filled_circle(y, z, a1, al_map_rgb(b1, c1, d1));
+
+
+		al_flip_display();
+
+		al_rest(.1);
+		if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+			break;
+		}
+		
+	}
+	al_destroy_display(display);
+	return 0;
+
+}
