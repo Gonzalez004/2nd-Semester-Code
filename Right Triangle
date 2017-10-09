@@ -1,0 +1,39 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+string input;
+double tri(int a, int b, int c);
+int main() {
+	while (input.compare("quit") != 0) {
+		int x1, x2, x3;
+
+		cout << "" << endl;
+		cout << "IS THIS A RIGHT TRIANGLE? Let's find out" << endl;
+		cout << "Enter three numbers for the sides of a triangle, from smallest to largest" << endl;
+		cout << "" << endl;
+		cout << "First Number/side" << endl;
+		cin >> x1;
+		cout << "Second Number/side" << endl;
+		cin >> x2;
+		cout << "Third Number/side" << endl;
+		cin >> x3;
+
+		tri(x1, x2, x3);
+	}
+}
+
+double tri(int a, int b, int c) {
+	double square1 = pow(a, 2.0);
+	double square2 = pow(b, 2.0);
+	double square3 = pow(c, 2.0);
+	double add = square1 + square2;
+
+	if (add == square3) {
+		cout << "This is a right triangle" << endl;
+	}
+	else {
+		cout << "This is not a right triangle" << endl;
+	}
+	return 0;
+}
