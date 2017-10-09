@@ -1,0 +1,38 @@
+#include <iostream>
+#include <Windows.h>
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_primitives.h>
+using namespace std;
+double Width;
+double Length;
+double x;
+double y;
+double x2;
+double y2;
+int main() {
+	ALLEGRO_DISPLAY *display = NULL;
+	al_init();
+	display = al_create_display(900, 900);
+	al_clear_to_color(al_map_rgb(0, 0, 0));
+	cout << "Put in your X and Y coordinate for your rectangle" << endl;
+	system("pause");
+	cout << "First the X coordinate" << endl;
+	cin >> x;
+	cout << "Now the Y coordinate" << endl;
+	cin >> y;
+	cout << "How long/big do you want this rectangle? (Width X Length)" << endl;
+	system("pause");
+	cout << "First the width" << endl;
+	cin >> Width;
+	cout << "Now the length" << endl;
+	cin >> Length;
+	x2 = Width + x;
+	y2 = Length + y;
+	al_draw_filled_rectangle(x, y, x2, y2, al_map_rgb(125, 125, 125));
+	system("pause");
+	al_flip_display();
+	al_rest(10.0);
+	al_destroy_display(display);
+	return 0;
+
+}
