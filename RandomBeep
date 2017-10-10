@@ -1,0 +1,51 @@
+#include <ctime>
+#include <Windows.h>
+#include <iostream>
+using namespace std; 
+int main() {
+	srand(time(NULL));
+	while (true) {
+		int a = rand() % 500;
+		int b = rand() % 500;
+		int c = rand() % 500;
+		int d = rand() % 500; 
+		int e = rand() % 500;
+		int f = rand() % 500;
+		int g = rand() % 500;
+		int h = rand() % 500;
+		int i = rand() % 500;
+		int j = rand() % 500;
+		int k = rand() % 500;
+		int l = rand() % 500;
+		int m = rand() % 500;
+		int n = rand() % 500;
+		int o = rand() % 500;
+		int p = rand() % 500;
+		int q = rand() % 500;
+		int r = rand() % 500;
+		int s = rand() % 500;
+		int t = rand() % 500;
+		int u = rand() % 500;
+		int v = rand() % 500;
+		int w = rand() % 500;
+		int x = rand() % 500;
+		int y = rand() % 500; 
+		int z = rand() % 500;
+		Beep(a,b);
+		Beep(c, d);
+		Beep(e, f);
+		Beep(g, h);
+		Beep(i, j);
+		Beep(k, l);
+		Beep(m, n);
+		Beep(o, p);
+		Beep(q, r);
+		Beep(s, t);
+		Beep(u, v);
+		Beep(w, x);
+		Beep(y, z);
+		cout << "ok" << endl;
+	//	system("pause");
+	}
+
+}
