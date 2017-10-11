@@ -1,0 +1,92 @@
+#include <iostream>
+#include <string>
+using namespace std;
+string input;
+int main() {
+	while (true) {
+		cout << "What color do you want the system/background" << endl;
+		cout << "" << endl;
+		cout << "Black?" << endl;
+		cout << "Blue?" << endl;
+		cout << "Green?" << endl;
+		cout << "Aqua?" << endl;
+		cout << "Red?" << endl;
+		cout << "Purple?" << endl;
+		cout << "Yellow?" << endl;
+		cout << "White?" << endl;
+		cout << "Gray?" << endl;
+		cout << "Light Blue?" << endl;
+		cout << "Light Green?" << endl;
+		cout << "Light Aqua?" << endl;
+		cout << "Light Red?" << endl;
+		cout << "Light Purple?" << endl;
+		cout << "Light Yellow?" << endl;
+		cout << "Bright White?" << endl;
+		getline(cin, input);
+		if (input.compare("Black") == 0 || input.compare("black") == 0) {
+			system("color 07");
+			system("pause");
+		}
+		else if (input.compare("Blue") == 0 || input.compare("blue") == 0) {
+			system("color 10");
+			system("pause");
+		}
+		else if (input.compare("Green") == 0 || input.compare("green") == 0) {
+			system("color 20");
+			system("pause");
+		}
+		else if (input.compare("Aqua") == 0 || input.compare("aqua") == 0) {
+			system("color 30");
+			system("pause");
+		}
+		else if (input.compare("Red") == 0 || input.compare("red") == 0) {
+			system("color 40");
+			system("pause");
+		}
+		else if (input.compare("Purple") == 0 || input.compare("purple") == 0) {
+			system("color 50");
+			system("pause");
+		}
+		else if (input.compare("Yellow") == 0 || input.compare("yellow") == 0) {
+			system("color 60");
+			system("pause");
+		}
+		else if (input.compare("White") == 0 || input.compare("white") == 0) {
+			system("color 70");
+			system("pause");
+		}
+		else if (input.compare("Gray") == 0 || input.compare("gray") == 0) {
+			system("color 80");
+			system("pause");
+		}
+		else if (input.compare("Light Blue") == 0 || input.compare("light blue") == 0) {
+			system("color 90");
+			system("pause");
+		}
+		else if (input.compare("Light Green") == 0 || input.compare("light green") == 0) {
+			system("color A0");
+			system("pause");
+		}
+		else if (input.compare("Light Aqua") == 0 || input.compare("light aqua") == 0) {
+			system("color B0");
+			system("pause");
+		}
+		else if (input.compare("Light Red") == 0 || input.compare("light red") == 0) {
+			system("color C0");
+			system("pause");
+		}
+		else if (input.compare("Light Purple") == 0 || input.compare("light purple") == 0) {
+			system("color D0");
+			system("pause");
+		}
+		else if (input.compare("Light Yellow") == 0 || input.compare("light yellow") == 0) {
+			system("color E0");
+			system("pause");
+		}
+		else if (input.compare("Bright White") == 0 || input.compare("bright white") == 0) {
+			system("color f0");
+			system("pause");
+		}
+	}
+	return 0;
+}
