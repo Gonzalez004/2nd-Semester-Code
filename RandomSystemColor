@@ -1,0 +1,96 @@
+#include <iostream>
+#include <ctime>
+using namespace std;
+
+int colors = 0;
+int main() {
+	srand(time(NULL));
+	while (true) {
+		cout << "These are the background color the program will print" << endl;
+		cout << "" << endl;
+		cout << "Black" << endl;
+		cout << "Blue" << endl;
+		cout << "Green" << endl;
+		cout << "Aqua" << endl;
+		cout << "Red" << endl;
+		cout << "Purple" << endl;
+		cout << "Yellow" << endl;
+		cout << "White" << endl;
+		cout << "Gray" << endl;
+		cout << "Light Blue" << endl;
+		cout << "Light Green" << endl;
+		cout << "Light Aqua" << endl;
+		cout << "Light Red" << endl;
+		cout << "Light Purple" << endl;
+		cout << "Light Yellow" << endl;
+		cout << "Bright White" << endl;
+		int colors = rand() % 16 + 1;
+		switch (colors) {
+		case 1:
+			system("color 07");
+			system("pause");
+			break;
+		case 2:
+			system("color 10");
+			system("pause");
+			break;
+		case 3:
+			system("color 20");
+			system("pause");
+			break;
+		case 4:
+			system("color 30");
+			system("pause");
+			break;
+		case 5:
+			system("color 40");
+			system("pause");
+			break;
+		case 6:
+			system("color 50");
+			system("pause");
+			break;
+		case 7:
+			system("color 60");
+			system("pause");
+			break;
+		case 8:
+			system("color 70");
+			system("pause");
+			break;
+		case 9:
+			system("color 80");
+			system("pause");
+			break;
+		case 10:
+			system("color 90");
+			system("pause");
+			break;
+		case 11:
+			system("color A0");
+			system("pause");
+			break;
+		case 12:
+			system("color B0");
+			system("pause");
+			break;
+		case 13:
+			system("color C0");
+			system("pause");
+			break;
+		case 14:
+			system("color D0");
+			system("pause");
+			break;
+		case 15:
+			system("color E0");
+			system("pause");
+			break;
+		case 16:
+			system("color f0");
+			system("pause");
+			break;
+		}
+	}
+	return 0;
+}
