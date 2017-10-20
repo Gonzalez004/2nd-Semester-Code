@@ -16,9 +16,9 @@ int main() {
 	//these two variables hold the x and y positions of the square
 	//initalize these variables to where you want your square to start
 	float square_x = 30;
-	float square_y = 0;
-	float square2_x = 610;
-	float square2_y = 0;
+	float square_y = 200;
+	float square2_x = 574;
+	float square2_y = 200;
 
 	//here's the bouncer's x and y coordinates on the screen, initally set to 30,30
 	float bouncer_x = 30;
@@ -243,8 +243,8 @@ int main() {
 
 		//render section: draws stuff
 		//if you were supposed to redraw but there wasn't an event, don't redraw
-		cout << "Square 1 " << square_x << ", " << square_y << endl;
-	//	cout << "Square 2 " << square2_x << ", " << square2_y << endl;
+		//cout << "Square 1 " << square_x << ", " << square_y << endl;
+	cout << "Square 2 " << square2_x << ", " << square2_y << endl;
 		if (redraw && al_is_event_queue_empty(event_queue)) {
 			redraw = false;
 
