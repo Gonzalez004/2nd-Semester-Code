@@ -206,7 +206,7 @@ int main() {
 	return 0;
 }
 bool collision(int Bx, int By, int Bw, int Bh, int Px, int Py, int Pw, int Ph) {
-	if (Bx+Bh<Px+Pw && (By + Bw +Bh) > Py) {
+	if (Bx+Bh>Px&&Bx+Bh<(Py+Ph)&&(By+Bw>Py&&(Py+Ph)>By)) {
 		cout << "Collision" << endl;
 	}
 	return 0;
