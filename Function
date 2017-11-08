@@ -1,0 +1,19 @@
+#include<iostream>
+using namespace std;
+
+int Product(int a, int b);
+int x;
+int y;
+int main() {
+	while (true) {
+		cout << "Put in two numbers" << endl;
+		cin >> x;
+		cin >> y;
+		cout << Product(x, y) << endl;
+		system("pause");
+	}
+	return 0;
+}
+int Product(int a, int b) {
+	return a * b;
+}
