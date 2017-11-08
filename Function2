@@ -1,0 +1,32 @@
+#include <iostream>
+using namespace std;
+bool OneDimCollision(int x1, int y1, int x2, int y2);
+
+int a, b, c, d;
+int main() {
+	while (true) {
+		cout << "Put in your coordinates for x" << endl;
+		cin >> a;
+		cin >> b;
+		cout << "Now put in your coordinates for y" << endl;
+		cin >> c;
+		cin >> d;
+		OneDimCollision(a, b, c, d);
+		if (OneDimCollision(a, b, c, d) == true) {
+			cout << "These coordinates are the same" << endl;
+		}
+		else if (OneDimCollision(a, b, c, d) == false) {
+			cout << "These coordinates are diffrent" << endl;
+		}
+		system("pause");
+	}
+	return 0;
+}
+bool OneDimCollision(int x1, int y1, int x2, int y2) {
+	if (x1 == x2 && y1 == y2) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
