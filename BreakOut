@@ -1,35 +1,63 @@
+
 #include <stdio.h>
-#include <iostream>
 #include <allegro5/allegro.h>
+#include <allegro5/allegro_primitives.h>
+#include <iostream>
+
 using namespace std;
 
-bool collision(int Bx, int By, int Bw, int Bh, int Px, int Py, int Pw, int Ph);
+int collision(int b1_x, int b1_y, int b1_w, int b1_h, int b2_x, int b2_y, int b2_w, int b2_h);
+int height = 110;
+int height1 = 110;
 
-int main() {
+
+class Brick {
+
+public:
+	void constructor();
+	void initBrick();
+	void draw();
+	bool isDead();
+	void killBrick();
+
+private:
+	int x;
+	int y;
+	int width;
+	int height;
+	bool dead;
+
+
+};
+
+
+int main(int argc, char **argv)
+{
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 	ALLEGRO_TIMER *timer = NULL;
-	ALLEGRO_BITMAP *bouncer = NULL;
 	ALLEGRO_BITMAP *square = NULL;
-	ALLEGRO_BITMAP *bouncer2 = NULL;
-	int Ph = 20;
-	int Pw = 110;
-	int Bh = 32;
-	int Bw = 32;
-	//Where you want your square to start
-	float square_x = 278;
-	float square_y = 452;
-	//Where you want your bouncer to start
-	float bouncer_x = 315;
-	float bouncer_y = 400;
-	//Key States: All starting as "false" because nothing has been pressed yet
-	//The first slots represents "up", "down", "left" and "right"
-	bool key[4] = { false, false, false, false };
+	ALLEGRO_BITMAP *square1 = NULL;
+	ALLEGRO_BITMAP *bouncer = NULL;
+
+	//these two variables hold the x and y positions of the square
+	//initalize these variables to where you want your square to start
+	float square_x = 195;
+	float square_y = 450;
+	float bouncer_x = 320;
+	float bouncer_y = 240;
+
 	//here's the bouncer's x and y directions, initially set to -4, 4
 	float bouncer_dx = -4.0, bouncer_dy = 4.0;
+	bool redraw = true;
+
+	//here's our key states. they're all starting as "false" because nothing has been pressed yet.
+	//the first slot represents "up", then "down", "left" and "right"
+	bool key[4] = { false, false, false, false };
+
 
 	//don't redraw until an event happens
-	bool redraw = true;
+	//bool redraw = true;
 
 	//this controls our game loop
 	bool doexit = false;
@@ -39,163 +67,149 @@ int main() {
 	//get the keyboard ready to use
 	al_install_keyboard();
 
-	//set the timer so it "ticks" at 2 milliseconds
-	timer = al_create_timer(.02);
+	al_init_primitives_addon();
 
-	//Size of the Screen
+	timer = al_create_timer(.01);
+
 	display = al_create_display(640, 480);
 
-	//create a little 32x32 square
-	bouncer = al_create_bitmap(Bw, Bh);
-	//create a little 110x20 square
-	square = al_create_bitmap(Pw, Ph);
+	square = al_create_bitmap(110, 15);
+	bouncer = al_create_bitmap(15, 15);
+
+
 	al_set_target_bitmap(square);
+	al_clear_to_color(al_map_rgb(500, 0, 0));
 
-	al_clear_to_color(al_map_rgb(255, 2, 5));
-
-	al_set_target_bitmap(al_get_backbuffer(display));
-
-	event_queue = al_create_event_queue();
-	//use this to *draw* your own bitmaps (instead of loading them from a file)
-	//before we used al_load_bitmap()
 	al_set_target_bitmap(bouncer);
-	al_clear_to_color(al_map_rgb(255, 100, 100));
+	al_clear_to_color(al_map_rgb(50, 510, 50));
 
 	al_set_target_bitmap(al_get_backbuffer(display));
+
 	event_queue = al_create_event_queue();
+
 	al_register_event_source(event_queue, al_get_display_event_source(display));
-	al_register_event_source(event_queue, al_get_keyboard_event_source());
-	//register the timer as an event source so it can generate events
+
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
+
+	//tell the event queue that it should take keyboard events, too 
+	al_register_event_source(event_queue, al_get_keyboard_event_source());
+
 	al_clear_to_color(al_map_rgb(0, 0, 0));
+
 	al_flip_display();
 
-	//GUESS WHAT THIS DOES
 	al_start_timer(timer);
 
 	while (!doexit)
 	{
+
 		ALLEGRO_EVENT ev;
-		//this function will wait forever if no events come in
 		al_wait_for_event(event_queue, &ev);
+		//cout << square_y << endl;
 
-		//////////////////////////////////////////////////////////////////////////////////
-		//this section handles the bouncing-off-the-edges action
-
-		//sets this part of the game to run on the clicks of the timer 
 		if (ev.type == ALLEGRO_EVENT_TIMER) {
-			
-
 			//if the box hits the left wall OR the right wall
-			if (bouncer_x < 0 || bouncer_x > 640 - 32) {
+			if (bouncer_x < 0 || bouncer_x > 640 - 15) {
 				//flip the x direction
 				bouncer_dx = -bouncer_dx;
 			}
 			//if the box hits the top wall OR the bottom wall
-			if (bouncer_y < 0 || bouncer_y > 480 - 32) {
+			if (bouncer_y < 0 || bouncer_y > 480 - 15) {
 				//flip the y direction
 				bouncer_dy = -bouncer_dy;
 			}
-			if (collision == 0) {
-				bouncer_dy = -bouncer_dy;
-			}
-			//////////////////////////////////////////////////////////////////////////////////
-			//////////////////////////////////////////////////////////////////////////////////
-			//////////////////////////////////////////////////////////////////////////////////
-			//////////////////////////////////////////////////////////////////////////////////
+
 			//really important code!
 			//move the box in a diagonal
 			bouncer_x += bouncer_dx;
 			bouncer_y += bouncer_dy;
 
-
-			//If the up button is pressed AND we're still below the top wall,
-			//move the box "up" by 4 pixels
-			if (key[0] && square_y >= 0) {
-				square_y -= 0.0;
-			}
-			//If the down button is pressed AND we're still above the bottom wall
-			//move the box "down" by 4 pixels
-			if (key[1] && square_y <= 480 - 32) {
-				square_y += 0.0;
-			}
-			//if the left button is pressed AND we're still right of the left wall
-			//move the box left by 4 pixels
-			if (key[2] && square_x >= 0) {
-				square_x -= 4.0;
-			}
-			//if the left button is pressed AND we're still left of the right wall
-			//move the box right by 4 pixels
-			if (key[3] && square_x <= 640 - Pw) {
-				square_x += 4.0;
-			}
 			//if an event happened, you better redraw
 			redraw = true;
 		}
 
-		//////////////////////////////////////////////////////////////////////////////////////////////////////
-		//kill program if the user clicks the exit button
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		//here's the movement algorithm
+
+		if (ev.type == ALLEGRO_EVENT_TIMER) {
+			if (key[0] && square_x >= 0) {
+				square_x -= 4.0;
+			}
+
+			if (key[1] && square_x <= 640 - 110) {
+				square_x += 4.0;
+			}
+
+			//redraw at every tick of the timer
+			redraw = true;
+		}
+		///////////////////////////////////////////////////////////////////////////////////////////////////////
 		else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
 			break;
 		}
+
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
 		//here's the algorithm that turns key presses into events
+		//a "key down" event is when a key is pushed
+		//while a "key up" event is when a key is released
+
+		//has something been pressed on the keyboard?
 		else if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {
+
 			//"keycode" holds all the different keys on the keyboard
 			switch (ev.keyboard.keycode) {
+
 				//if the up key has been pressed
-			case ALLEGRO_KEY_UP:
+			case ALLEGRO_KEY_LEFT:
 				key[0] = true;
 				break;
+
 				//if the down key has been pressed
-			case ALLEGRO_KEY_DOWN:
-				key[1] = true;
-				break;
-				//if the left key has been pressed
-			case ALLEGRO_KEY_LEFT:
-				key[2] = true;
-				break;
-				//if the right key has been pressed
 			case ALLEGRO_KEY_RIGHT:
-				key[3] = true;
+				key[1] = true;
 				break;
 			}
 		}
-		
 		//has something been released on the keyboard?
 		else if (ev.type == ALLEGRO_EVENT_KEY_UP) {
 			switch (ev.keyboard.keycode) {
-			case ALLEGRO_KEY_UP:
+			case ALLEGRO_KEY_LEFT:
 				key[0] = false;
 				break;
-			case ALLEGRO_KEY_DOWN:
+
+			case ALLEGRO_KEY_RIGHT:
 				key[1] = false;
 				break;
-			case ALLEGRO_KEY_LEFT:
-				key[2] = false;
-				break;
-			case ALLEGRO_KEY_RIGHT:
-				key[3] = false;
-				break;
+
 				//kill the program if someone presses escape
 			case ALLEGRO_KEY_ESCAPE:
 				doexit = true;
 				break;
 			}
 		}
-		//render section: draws stuff
-		//if you were supposed to redraw but there wasn't an event, don't redra
+
+		if (collision(bouncer_x, bouncer_y, 15, 15, square_x, square_y, 110, 15) == 1)
+		{
+
+			bouncer_dy = -bouncer_dy; height = 5;
+
+		}
+
+		//if the clock ticked but no other events happened, don't bother redrawing
 		if (redraw && al_is_event_queue_empty(event_queue)) {
 			redraw = false;
-			cout << square_x << "," << square_y << endl;
-			al_clear_to_color(al_map_rgb(0, 0, 0)); //comment this out :)
-			//here's where the magic happens: draw the square to the screen
-			//at the coordinate position bouncer_x, bouncer_y
-			al_draw_bitmap(bouncer, bouncer_x, bouncer_y, 0);
+
+			//paint black over the old screen, so the old square dissapears
+			al_clear_to_color(al_map_rgb(0, 0, 0));
+
+			//the algorithm above just changes the x and y coordinates
+			//here's where the bitmap is actually drawn somewhere else
 			al_draw_bitmap(square, square_x, square_y, 0);
+			al_draw_bitmap(bouncer, bouncer_x, bouncer_y, 0);
+
 			al_flip_display();
 		}
-	}//end game loop
+	}
 
 	al_destroy_bitmap(square);
 	al_destroy_bitmap(bouncer);
@@ -205,9 +219,41 @@ int main() {
 
 	return 0;
 }
-bool collision(int Bx, int By, int Bw, int Bh, int Px, int Py, int Pw, int Ph) {
-	if (Bx+Bh>Px&&Bx+Bh<(Py+Ph)&&(By+Bw>Py&&(Py+Ph)>By)) {
-		cout << "Collision" << endl;
+int collision(int b1_x, int b1_y, int b1_w, int b1_h, int b2_x, int b2_y, int b2_w, int b2_h)
+{
+	if ((b1_x > b2_x + b2_w - 1) || //box 2 is to the LEFT of box 1
+		(b1_y > b2_y + b2_h - 1) || //box 2 is ABOVE box 1
+		(b2_x  > b1_x + b1_w - 1) ||//box 2 is to the RIGHT of box1
+		(b2_y > b1_y + b1_h - 1)) //box 2 is BELOW box 1
+	{
+		return 0;
 	}
-	return 0;
+	else
+	{
+		return 1;
+	}
+
+}
+
+//class function definitions
+void Brick::constructor() {
+	x = 0;
+	y = 0;
+	width = 0;
+	height = 0;
+	dead = 0;
+}
+void Brick::initBrick() {
+	x = 0;
+	y = 0;
+	width = 50;
+	height = 30;
+}
+void Brick::draw() {
+	al_draw_filled_rectangle(x, y, x, y, al_map_rgb(50, 50, 50));
+}
+
+//bool Brick::isDead() {}
+void Brick::killBrick() {
+	return 1;
 }
