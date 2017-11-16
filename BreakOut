@@ -15,10 +15,11 @@ class Brick {
 
 public:
 	void constructor();
-	void initBrick();
+	void initBrick(int xPos, int yPos);
 	void draw();
 	bool isDead();
 	void killBrick();
+	int Brick::collision(int b2_x, int b2_y, int b2_w, int b2_h);
 
 private:
 	int x;
@@ -26,12 +27,10 @@ private:
 	int width;
 	int height;
 	bool dead;
-
-
 };
 
 
-int main(int argc, char **argv)
+int main()
 {
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
@@ -100,6 +99,48 @@ int main(int argc, char **argv)
 
 	al_start_timer(timer);
 
+	//SET UP BRICKS
+	Brick b1;
+	b1.initBrick(20, 20);
+	Brick b2;
+	b2.initBrick(140, 20);
+	Brick b3;
+	b3.initBrick(260, 20);
+	Brick b4;
+	b4.initBrick(380, 20);
+	Brick b5;
+	b5.initBrick(500, 20);
+    //Row Two
+	Brick r2b1;
+	r2b1.initBrick(20, 60);
+	Brick r2b2;
+	r2b2.initBrick(140, 60);
+	Brick r2b3;
+	r2b3.initBrick(260, 60);
+	Brick r2b4;
+	r2b4.initBrick(380, 60);
+	Brick r2b5;
+	r2b5.initBrick(500, 60);
+	//ROW THREE
+	Brick r3b1;
+	r3b1.initBrick(20, 100);
+	Brick r3b2;
+	r3b2.initBrick(140, 100);
+	Brick r3b3;
+	r3b3.initBrick(260, 100);
+	Brick r3b4;
+	r3b4.initBrick(380, 100);
+	Brick r3b5;
+	r3b5.initBrick(500, 100);
+
+	
+	
+	
+	
+	
+	
+	
+	
 	while (!doexit)
 	{
 
@@ -131,7 +172,7 @@ int main(int argc, char **argv)
 		//////////////////////////////////////////////////////////////////////////////////////////////////
 		//here's the movement algorithm
 
-		if (ev.type == ALLEGRO_EVENT_TIMER) {
+		if (ev.type == ALLEGRO_EVENT_TIMER) { //physics engine
 			if (key[0] && square_x >= 0) {
 				square_x -= 4.0;
 			}
@@ -139,6 +180,123 @@ int main(int argc, char **argv)
 			if (key[1] && square_x <= 640 - 110) {
 				square_x += 4.0;
 			}
+
+
+			//ball paddle collision
+			if (collision(bouncer_x, bouncer_y, 15, 15, square_x, square_y, 110, 15) == 1)
+			{
+
+				bouncer_dy = -bouncer_dy; height = 5;
+
+			}
+
+			//brick collisions!
+			if ((b1.collision(bouncer_x, bouncer_y, 15, 15) == 1) && b1.isDead()==false) {
+				b1.killBrick();
+				bouncer_dy *= -1;
+				//add sound effect here
+			}
+			if ((b2.collision(bouncer_x, bouncer_y, 15, 15) == 1) && b2.isDead() == false) {
+				b2.killBrick();
+				bouncer_dy *= -1;
+				//add sound effect here
+			}
+			if ((b3.collision(bouncer_x, bouncer_y, 15, 15) == 1) && b3.isDead() == false) {
+				b3.killBrick();
+				bouncer_dy *= -1;
+				//add sound effect here
+			}
+			if ((b4.collision(bouncer_x, bouncer_y, 15, 15) == 1) && b4.isDead() == false) {
+				b4.killBrick();
+				bouncer_dy *= -1;
+				//add sound effect here
+			}
+			if ((b5.collision(bouncer_x, bouncer_y, 15, 15) == 1) && b5.isDead() == false) {
+				b5.killBrick();
+				bouncer_dy *= -1;
+				//add sound effect here
+			}
+			//ROW TWO
+			if ((r2b1.collision(bouncer_x, bouncer_y, 15, 15) == 1) && r2b1.isDead() == false) {
+				r2b1.killBrick();
+				bouncer_dy *= -1;
+				//add sound effect here
+			}
+			if ((r2b2.collision(bouncer_x, bouncer_y, 15, 15) == 1) && r2b2.isDead() == false) {
+				r2b2.killBrick();
+				bouncer_dy *= -1;
+				//add sound effect here
+			}
+			if ((r2b3.collision(bouncer_x, bouncer_y, 15, 15) == 1) && r2b3.isDead() == false) {
+				r2b3.killBrick();
+				bouncer_dy *= -1;
+				//add sound effect here
+			}
+			if ((r2b4.collision(bouncer_x, bouncer_y, 15, 15) == 1) && r2b4.isDead() == false) {
+				r2b4.killBrick();
+				bouncer_dy *= -1;
+				//add sound effect here
+			}
+
+			if ((r2b5.collision(bouncer_x, bouncer_y, 15, 15) == 1) && r2b5.isDead() == false) {
+				r2b5.killBrick();
+				bouncer_dy *= -1;
+				//add sound effect here
+			}
+			//ROW THREE
+			if ((r3b1.collision(bouncer_x, bouncer_y, 15, 15) == 1) && r3b1.isDead() == false) {
+				r3b1.killBrick();
+				bouncer_dy *= -1;
+				//add sound effect here
+			}
+			if ((r3b2.collision(bouncer_x, bouncer_y, 15, 15) == 1) && r3b2.isDead() == false) {
+				r3b2.killBrick();
+				bouncer_dy *= -1;
+				//add sound effect here
+			}
+			if ((r3b3.collision(bouncer_x, bouncer_y, 15, 15) == 1) && r3b3.isDead() == false) {
+				r3b3.killBrick();
+				bouncer_dy *= -1;
+				//add sound effect here
+			}
+			if ((r3b4.collision(bouncer_x, bouncer_y, 15, 15) == 1) && r3b4.isDead() == false) {
+				r3b4.killBrick();
+				bouncer_dy *= -1;
+				//add sound effect here
+			}
+			if ((r3b5.collision(bouncer_x, bouncer_y, 15, 15) == 1) && r3b5.isDead() == false) {
+				r3b5.killBrick();
+				bouncer_dy *= -1;
+				//add sound effect here
+			}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 			//redraw at every tick of the timer
 			redraw = true;
@@ -188,12 +346,6 @@ int main(int argc, char **argv)
 			}
 		}
 
-		if (collision(bouncer_x, bouncer_y, 15, 15, square_x, square_y, 110, 15) == 1)
-		{
-
-			bouncer_dy = -bouncer_dy; height = 5;
-
-		}
 
 		//if the clock ticked but no other events happened, don't bother redrawing
 		if (redraw && al_is_event_queue_empty(event_queue)) {
@@ -206,6 +358,54 @@ int main(int argc, char **argv)
 			//here's where the bitmap is actually drawn somewhere else
 			al_draw_bitmap(square, square_x, square_y, 0);
 			al_draw_bitmap(bouncer, bouncer_x, bouncer_y, 0);
+
+			//draw bricks!
+			if (b1.isDead() == false)
+				b1.draw();
+			if (b2.isDead() == false)
+				b2.draw();
+			if (b3.isDead() == false)
+				b3.draw();
+			if (b4.isDead() == false)
+				b4.draw();
+			if (b5.isDead() == false)
+				b5.draw();
+			if (r2b1.isDead() == false)
+				r2b1.draw();
+			if (r2b2.isDead() == false)
+				r2b2.draw();
+			if (r2b3.isDead() == false)
+				r2b3.draw();
+			if (r2b4.isDead() == false)
+				r2b4.draw();
+			if (r2b5.isDead() == false)
+				r2b5.draw();
+			if (r3b1.isDead() == false)
+				r3b1.draw();
+			if (r3b2.isDead() == false)
+				r3b2.draw();
+			if (r3b3.isDead() == false)
+				r3b3.draw();
+			if (r3b4.isDead() == false)
+				r3b4.draw();
+			if (r3b5.isDead() == false)
+				r3b5.draw();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 			al_flip_display();
 		}
@@ -243,17 +443,39 @@ void Brick::constructor() {
 	height = 0;
 	dead = 0;
 }
-void Brick::initBrick() {
-	x = 0;
-	y = 0;
-	width = 50;
+void Brick::initBrick(int xPos, int yPos) {
+	x = xPos;
+	y = yPos;
+	width = 100;
 	height = 30;
+	dead = false;
 }
 void Brick::draw() {
-	al_draw_filled_rectangle(x, y, x, y, al_map_rgb(50, 50, 50));
+	al_draw_filled_rectangle(x, y, x+width, y+height, al_map_rgb(50, 50, 50));
 }
 
-//bool Brick::isDead() {}
+bool Brick::isDead() {
+
+	return dead;
+
+}
 void Brick::killBrick() {
-	return 1;
+	dead = true;
+}
+
+//b1 is the brick, b2 is the ball
+int Brick::collision( int b2_x, int b2_y, int b2_w, int b2_h)
+{
+	if ((x > b2_x + b2_w - 1) || //box 2 is to the LEFT of box 1
+		(y > b2_y + b2_h - 1) || //box 2 is ABOVE box 1
+		(b2_x  > x + width - 1) ||//box 2 is to the RIGHT of box1
+		(b2_y > y + height - 1)) //box 2 is BELOW box 1
+	{
+		return 0;
+	}
+	else
+	{
+		return 1;
+	}
+
 }
