@@ -1,0 +1,319 @@
+//Add a second bouncer to this code:
+#include <stdio.h>
+#include <iostream>
+#include <allegro5/allegro.h>
+#include<allegro5/allegro_primitives.h>
+using namespace std;
+int PlattformCollide(int x, int y, int dir, int map[25][25]);
+//int wallCollide(int x, int y, int dir, int level[25][25]);
+
+
+const int PACSIZE = 30;
+const int WALLSIZE = 40;
+enum directions { up, down, left, right };
+
+int map[25][25] = {
+	//  1 2 3 4 5 6 7 8 9 1 1 2 3 4 5 6 7 8 9 1 1 2 3 4 5
+	1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, //1
+	1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1, //2
+	1,0,1,1,1,0,1,0,1,1,1,0,1,0,1,1,1,0,1,0,1,1,1,0,1, //3
+	1,0,1,1,1,0,1,0,1,1,1,0,1,0,1,1,1,0,1,0,1,1,1,0,1, //4
+	1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1, //5
+	1,0,1,1,1,0,1,0,1,1,1,0,1,0,1,1,1,0,1,0,1,1,1,0,1, //6
+	1,0,1,1,1,0,1,0,1,1,1,0,1,0,1,1,1,0,1,0,1,1,1,0,1, //7
+	1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1, //8
+	1,0,1,0,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,0,1,0,1, //9
+	1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,1, //10
+	1,0,1,0,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,0,1,0,1, //11
+	1,1,1,1,1,0,1,1,0,1,1,1,0,1,1,1,0,1,1,0,1,1,1,1,1, //12
+	0,0,0,0,0,0,1,1,0,1,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0, //13 
+	1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,1,0,1,1,0,1,1,1,1,1, //14
+	1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1, //15
+	1,0,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,0,1, //16
+	1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1, //17
+	1,0,1,1,1,1,0,1,1,1,1,0,1,0,1,1,1,1,0,1,1,1,1,0,1, //18
+	1,0,1,1,1,1,0,1,1,1,1,0,1,0,1,1,1,1,0,1,1,1,1,0,1, //19
+	1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,1, //20
+	1,1,1,0,1,1,0,1,1,1,1,1,1,1,1,1,1,1,0,1,1,0,1,1,1, //21
+	1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1, //22
+	1,0,1,1,1,1,1,1,1,1,1,0,1,0,1,1,1,1,1,1,1,1,1,0,1, //23
+	1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1, //24
+	1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1  //25
+};
+
+
+int main() {
+	//enum directions { up, down, left, right };
+	//enum directions { right, down, left, up };
+	al_init();
+	al_init_primitives_addon();
+	ALLEGRO_DISPLAY *display = NULL;
+	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
+	ALLEGRO_TIMER *timer = NULL;
+	ALLEGRO_BITMAP *square = NULL;
+	ALLEGRO_BITMAP *wall = NULL;
+
+	//Hold the x and y positions of the square to where you want your square to start
+	float square_x = 40;
+	float square_y = 50;
+
+	//here's our key states.The first slot represents "up"0, then "down"1, "left"2 and "right"3
+
+	bool key[4] = { false, false, false, false };
+
+	//don't redraw until an event happens
+	bool redraw = true;
+
+	//this controls our game loop
+	bool doexit = false;
+
+	//get the keyboard ready to use
+	al_install_keyboard();
+
+	//set the timer so it "ticks" at 2 milliseconds
+	timer = al_create_timer(.02);
+
+	//Creates the Display and Position its
+	display = al_create_display(1000, 1000);
+	al_set_window_position(display, 420, 0);
+
+	//create a little 32x32 square
+	square = al_create_bitmap(PACSIZE, PACSIZE);
+	al_set_target_bitmap(square);
+	al_clear_to_color(al_map_rgb(255, 255, 0));
+	al_set_target_bitmap(al_get_backbuffer(display));
+	event_queue = al_create_event_queue();
+	//creating wall
+	wall = al_create_bitmap(WALLSIZE, WALLSIZE);
+	al_set_target_bitmap(wall);
+	al_clear_to_color(al_map_rgb(0, 255, 255));
+
+
+	al_set_target_bitmap(al_get_backbuffer(display));
+	event_queue = al_create_event_queue();
+
+
+	al_set_target_bitmap(al_get_backbuffer(display));
+	event_queue = al_create_event_queue();
+	al_register_event_source(event_queue, al_get_display_event_source(display));
+	al_register_event_source(event_queue, al_get_keyboard_event_source());
+
+	//register the timer as an event source so it can generate events
+	al_register_event_source(event_queue, al_get_timer_event_source(timer));
+	al_clear_to_color(al_map_rgb(0, 0, 0));
+
+	al_flip_display();
+
+	//Starts the Timer
+	al_start_timer(timer);
+
+	while (!doexit)
+	{
+		ALLEGRO_EVENT ev;
+		//this function will wait forever if no events come in
+		al_wait_for_event(event_queue, &ev);
+
+		//sets this part of the game to run on the clicks of the timer 
+		if (ev.type == ALLEGRO_EVENT_TIMER) {
+
+			//enum directions { right, down, left, up };
+			//0 is up, 1 is down, 2 is left, 3 is right
+			if
+			if (key[0] && !PlattformCollide(square_x, square_y, 0, map)) {
+				square_y -= 2.0;
+			}
+			if (key[1] && !PlattformCollide(square_x, square_y, 1, map)) {
+				square_y += 2.0;
+			}
+			if (key[2] && !PlattformCollide(square_x, square_y, 2, map)) {
+				square_x -= 2.0;
+			}
+			if (key[3] && !PlattformCollide(square_x, square_y, 3, map)) {
+				square_x += 2.0;
+			}
+
+			//if an event happened, you better redraw
+			redraw = true;
+		}
+
+		//////////////////////////////////////////////////////////////////
+		//kill program if the user clicks the exit button
+		else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+			break;
+		}
+		//////////////////////////////////////////////////////////////////////////////////////////////////////
+		//A "key down" event is when a key is pushed
+		//while a "key up" event is when a key is released
+
+		//has something been pressed on the keyboard?
+		else if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {
+			//"keycode" holds all the different keys on the keyboard
+			switch (ev.keyboard.keycode) {
+				//if the up key has been pressed
+			case ALLEGRO_KEY_UP:
+				key[0] = true;
+				break;
+				//if the down key has been pressed
+			case ALLEGRO_KEY_DOWN:
+				key[1] = true;
+				break;
+				//if the left key has been pressed
+			case ALLEGRO_KEY_LEFT:
+				key[2] = true;
+				break;
+				//if the right key has been pressed
+			case ALLEGRO_KEY_RIGHT:
+				key[3] = true;
+				break;
+			}
+		}
+		//has something been released on the keyboard?
+		else if (ev.type == ALLEGRO_EVENT_KEY_UP) {
+			switch (ev.keyboard.keycode) {
+			case ALLEGRO_KEY_UP:
+				key[0] = false;
+				break;
+			case ALLEGRO_KEY_DOWN:
+				key[1] = false;
+				break;
+			case ALLEGRO_KEY_LEFT:
+				key[2] = false;
+				break;
+			case ALLEGRO_KEY_RIGHT:
+				key[3] = false;
+				break;
+				//kill the program if someone presses escape
+			case ALLEGRO_KEY_ESCAPE:
+				doexit = true;
+				break;
+			}
+		}
+		//render section: draws stuff
+		//if you were supposed to redraw but there wasn't an event, don't redraw
+		if (redraw && al_is_event_queue_empty(event_queue)) {
+			redraw = false;
+
+			al_clear_to_color(al_map_rgb(0, 0, 0));
+
+			//actually Draws the square
+			al_draw_bitmap(square, square_x, square_y, 0);
+
+			for (int i = 0; i < 25; i++) {
+				for (int j = 0; j < 25; j++) {
+				//al_draw_rectangle(i*40,j*40, i*40+40, j*40+40, al_map_rgb(50,80,90 ), 3);
+					if (map[j][i] == 1) {
+						al_draw_bitmap(wall, j * 40, i * 40, 0);
+					}
+				}
+			}
+			al_flip_display();
+		}
+	}//end game loop
+
+	al_destroy_bitmap(square);
+	al_destroy_bitmap(wall);
+	al_destroy_timer(timer);
+	al_destroy_display(display);
+	al_destroy_event_queue(event_queue);
+
+	return 0;
+}
+int PlattformCollide(int x, int y, int dir, int map[25][25]) {
+	enum directions { up, down, left, right };
+	cout << "checking " << x << " , " << y << endl;
+ //down collision
+	if (((map[(x) / 40][(y + 30 + 5 ) / 40] == 1) && dir == down) || ((map[(x + 30) / 40][(y + 30 +5) / 40] == 1) && dir == down) || ((map[(x + 15)/40][(y + 30+5)/40] == 1) && dir == down)) {
+		return 1;
+	}
+	//up collision
+	if (((map[(x) / 40][(y-5) / 40] == 1) && dir == up) || ((map[(x + 30) / 40][(y-5) / 40] == 1) && dir == up) || ((map[(x + 15) / 40][(y-5) / 40] == 1) && dir == up)) {
+		return 1;
+	}
+	//left collision
+	if (((map[(x-5) / 40][(y) / 40] == 1) && dir == left) || ((map[(x-5) / 40][(y + 30) / 40] == 1) && dir == left) || ((map[(x-5) / 40][(y + 15) / 40] == 1) && dir == left)) {
+		return 1;
+	}
+	//right collision
+	 if (((map[(x + 35) / 40][(y) / 40] == 1) && dir == 3) || ((map[(x+35) / 40][(y+30) / 40] == 1) && dir == 3) || ((map[(x+35) / 40][(y + 15) / 40] == 1) && dir == right)) {
+		return 1;
+	}
+	else
+		return 0;
+}
+/*int wallCollide(int x, int y, int dir, int level[25][25]){
+	enum directions { right, down, left, up };
+    Directions
+    1 = Right
+    2 = Down
+    3 = Left
+    4 = Up
+
+    // First, determine the cell of the 2-d array that the sprite is moving into.
+    int new_x = x;
+    int new_y = y;
+    int new_x1;
+    int new_x2;
+    int new_x3;
+    int new_y1;
+    int new_y2;
+    int new_y3;
+
+    if (dir == 3){ // Moving Right
+        // Check along the far right side of the sprite, plus 3 (the amount we’re moving)
+        new_x1 = x + 4 + PACSIZE;
+        new_x2 = x + 4 + PACSIZE;
+        new_x3 = x + 4 + PACSIZE;
+        // Check at three points along that edge
+        new_y1 = y;
+        new_y2 = y + PACSIZE / 2;
+        new_y3 = y + PACSIZE;
+    }
+    else if (dir == 4){ //moving down
+        new_x1 = x;
+        new_x2 = x + PACSIZE / 2;
+        new_x3 = x + PACSIZE;
+        //Check at three points along that edge
+        new_y1 = y + 4 + PACSIZE;
+        new_y2 = y + 4 + PACSIZE;
+        new_y3 = y + 4 + PACSIZE;
+    }
+    else if (dir == 1){ //moving left
+        new_x1 = x - 4;
+        new_x2 = x - 4;
+        new_x3 = x - 4;
+        // Check at three points along that edge
+        new_y1 = y;
+        new_y2 = y + PACSIZE / 2;
+        new_y3 = y + PACSIZE;
+    }
+    else if (dir == 2){ //moving up
+        new_x1 = x;
+        new_x2 = x + PACSIZE / 2;
+        new_x3 = x + PACSIZE;
+        //Check at three points along that edge
+        new_y1 = y - 4;
+        new_y2 = y - 4;
+        new_y3 = y - 4;
+    }
+    else return 99; // Or whatever the error condition is going to be.
+
+    // So, now we know that new_x, new_y is the place the sprite is trying to go.
+    // Translate this into the 2-d array
+    int new_cell_x1 = new_x1 / WALLSIZE;
+    int new_cell_x2 = new_x2 / WALLSIZE;
+    int new_cell_x3 = new_x3 / WALLSIZE;
+    int new_cell_y1 = new_y1 / WALLSIZE;
+    int new_cell_y2 = new_y2 / WALLSIZE;
+    int new_cell_y3 = new_y3 / WALLSIZE;
+
+    // Check to see if the resulting cell is solid.
+    if ((level[new_cell_x1][new_cell_y1] == 1)
+        || (level[new_cell_x2][new_cell_y2] == 1)
+        || (level[new_cell_x3][new_cell_y3] == 1))
+    {
+        //cout<<"collision!";
+        return 1;
+    }
+    else
+        return 0;
+}*/
