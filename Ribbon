@@ -1,0 +1,28 @@
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_primitives.h>
+#include <iostream>
+
+using namespace std;
+
+int main() {
+	ALLEGRO_DISPLAY *display = NULL;
+	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
+	al_init();
+    al_init_primitives_addon();
+	display = al_create_display(800, 600);
+	event_queue = al_create_event_queue();
+	al_register_event_source(event_queue, al_get_display_event_source(display));
+	al_clear_to_color(al_map_rgb_f(0, 0, 0));
+		  struct MyPoint {
+		    float x, y;
+		    int something_else; };
+		 const size_t num_points1 = 5;
+	  MyPoint points1[5] =  {
+		    {100, 100, 0}, {100, 150, 0}, {200, 200, 0}, {200, 300, 0}, {100, 500, 0} };
+	
+		  al_draw_ribbon((float*)points1, sizeof(MyPoint), al_map_rgb_f(1, 0, 0.5), 10, num_points1);	
+	
+		al_flip_display();
+	    ALLEGRO_EVENT ev;
+		al_wait_for_event(event_queue, &ev);
+	}
