@@ -1,0 +1,26 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int input = 1;
+vector <int> Numbers;
+vector <int> ::iterator iter;
+
+int main() {
+	while (input != 0) {
+		cout << "Type a single digit number" << endl;
+		cin >> input;
+		Numbers.push_back(input);
+	}
+	cout << endl;
+	for (iter = Numbers.begin(); iter != Numbers.end(); iter++){
+		cout << *iter << endl;
+	}
+	cout << endl;
+	sort(Numbers.begin(), Numbers.end());
+	for (iter = Numbers.begin(); iter != Numbers.end(); iter++) {
+		cout << *iter << endl;
+	}
+}
