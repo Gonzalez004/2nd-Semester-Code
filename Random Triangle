@@ -1,0 +1,102 @@
+#include <iostream>
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_primitives.h>
+#include <ctime>
+#include <string>
+using namespace std;
+string input;
+int a;
+int b;
+int c;
+int d;
+int e;
+int f;
+
+int g;
+int h;
+int i;
+int j;
+int k;
+int l;
+
+int m;
+int n;
+int o;
+int p;
+int q;
+int r;
+
+int s;
+int t;
+int u;
+int v;
+int w;
+int x;
+
+int y;
+int z;
+int a1;
+int b1;
+int c1;
+int d1;
+int main() {
+
+	srand(time(NULL));
+	al_init();
+	al_init_primitives_addon();
+
+	ALLEGRO_DISPLAY *display = NULL;
+
+	display = al_create_display(900, 900);
+
+	al_clear_to_color(al_map_rgb(0, 0, 0));
+
+	while (true) {
+		ALLEGRO_EVENT ev;
+		int a = rand() % 900;
+		int b = rand() % 900;
+		int c = rand() % 900;
+		int d = rand() % 900;
+		int e = rand() % 900;
+		int f = rand() % 900;
+		int g = rand() % 250;
+		int h = rand() % 250;
+		int i = rand() % 250;
+		int j = rand() % 10;
+
+		int k = rand() % 900;
+		int l = rand() % 900;
+		int m = rand() % 900;
+		int n = rand() % 900;
+		int o = rand() % 900;
+		int p = rand() % 900;
+		int q = rand() % 250;
+		int r = rand() % 250;
+		int s = rand() % 250;
+		int t = rand() % 10;
+
+		int u = rand() % 900;
+		int v = rand() % 900;
+		int w = rand() % 900;
+		int x = rand() % 900;
+		int y = rand() % 900;
+		int z = rand() % 900;
+		int a1 = rand() % 250;
+		int b1 = rand() % 250;
+		int c1 = rand() % 250;
+		int d1 = rand() % 10;
+
+
+		al_draw_triangle(a, b, c, d, e, f, al_map_rgb(g, h, i), j);
+		al_draw_triangle(k, l, m, n, o, p, al_map_rgb(q, r, s), t);
+		al_draw_triangle(u, v, w, x, y, z, al_map_rgb(a1, b1, c1), d1);
+
+		al_flip_display();
+
+		al_rest(.5);
+
+	}
+	al_destroy_display(display);
+	return 0;
+
+}
