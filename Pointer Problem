@@ -1,0 +1,21 @@
+#include<iostream>
+using namespace std;
+int h;
+int i;
+int j;
+int k;
+int main() {
+	cout << "What height do you want your pyramid to be?" << endl;
+	cin >> h;
+
+	for (i = 1; i <= h; i++) {
+		for (j = 1; j <= h - i; j++) {
+			cout << " ";
+		}
+		for (j = 1; j <= i + k; j++) {
+			cout << "*";
+		}
+		cout << endl;
+		k += 1;
+	}
+}
