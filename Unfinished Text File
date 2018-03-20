@@ -1,0 +1,63 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+
+using namespace std;
+
+int cases = 0;
+int input;
+int number;
+
+string fnames ="";
+string lnames;
+string mnames;
+
+int main(){
+			
+		ofstream Bob;
+		Bob.open("Prob01.in.txt");
+		cin >> input;
+		Bob << input;
+		Bob.close();
+	while (cases != 2) {
+		for (int i = 0; i < input; i++){
+			cout << "How many names do you want" << endl;
+			cin >> number;
+			Bob << number;
+			for (int j = 0; j < number; j++) {
+				ofstream Steve;
+				Steve.open("Prob01.in.txt");
+				cout << "For your names, you have to give a First, Last, and Middle name" << endl;
+				cout << "First name" << endl;
+				getline(cin, fnames);
+				cout << "Last name" << endl;
+				getline(cin, lnames);
+				cout << "Middle Name" << endl;
+				getline(cin, mnames);
+				cout << "Heres the whole name" << endl;
+				cout << fnames << " " << mnames << " " << lnames << endl;
+				Steve << fnames << " " << mnames << " " << lnames << endl;
+				Steve.close();
+				cases = cases + 1;
+			}
+		}
+		Bob.close();
+		
+
+	/*	string line;
+		ifstream Bob1("Prob01.in.txt");
+		if (Bob1.is_open()) {
+			while (getline(Bob1, line)) {
+				for (int i = 0; i < input; i++) {
+					cout << line << endl;
+				}
+			}
+			Bob1.close();
+			}
+		else
+			cout << "Unable to open" << endl;
+
+		system("pause");*/
+
+	} // while loop
+} // int main
